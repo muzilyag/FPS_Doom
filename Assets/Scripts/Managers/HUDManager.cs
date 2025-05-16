@@ -54,7 +54,7 @@ public class HUDManager : MonoBehaviour
 
             activeWeaponUI.sprite = GetWeaponSprite(model);
             //print(activeWeaponUI.sprite.rect.size);
-            if(unActiveWeaponUI)
+            if(unActiveWeapon)
             {
                 unActiveWeaponUI.sprite = GetWeaponSprite(unActiveWeapon.thisWeaponModel);
             }

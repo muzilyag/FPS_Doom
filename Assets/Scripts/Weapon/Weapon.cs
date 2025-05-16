@@ -59,6 +59,10 @@ public class Weapon : MonoBehaviour
     //public Vector3 spawnPositionAfterDrop;
     public Vector3 spawnRotationAfterDrop;
 
+    #region Layers
+    private int weaponLayer;
+    private int defaultLayer;
+    #endregion
     public enum WeaponModelEnum
     {
         M1911,
@@ -83,14 +87,20 @@ public class Weapon : MonoBehaviour
         animator = GetComponent<Animator>();
         bulletsLeft = magazineSize;
         spreadIntensity = hipSpreadIntensity;
+        weaponLayer = 6;
+        defaultLayer = LayerMask.NameToLayer("Default");
     }
+
     private void Update()
     {
         if(isActiveWeapon)
         {
-            foreach(Transform child in transform)
+            //transform.gameObject.layer = LayerMask.NameToLayer("WeaponRender");
+            //int i = 0;
+            foreach (Transform child in transform.GetComponentsInChildren<Transform>(true))
             {
-                child.gameObject.layer = LayerMask.NameToLayer("WeaponRender");
+                child.gameObject.layer = weaponLayer;
+                //print("Hello! Is WeaponRenderLayer!");
             }
 
 
@@ -138,16 +148,17 @@ public class Weapon : MonoBehaviour
             }
 
 
-            if (AmmoManager.Instance.ammoDisplay != null)
-            {
-                AmmoManager.Instance.ammoDisplay.text = $"{bulletsLeft / bulletsPerBurst}/{magazineSize / bulletsPerBurst}";
-            }
+            //if (AmmoManager.Instance.ammoDisplay != null)
+            //{
+            //    AmmoManager.Instance.ammoDisplay.text = $"{bulletsLeft / bulletsPerBurst}/{magazineSize / bulletsPerBurst}";
+            //}
         }
         else
         {
-            foreach (Transform child in transform)
+            foreach (Transform child in transform.GetComponentsInChildren<Transform>(true))
             {
-                child.gameObject.layer = LayerMask.NameToLayer("Default");
+                child.gameObject.layer = defaultLayer;
+                //print("Unactive");
             }
         }
     }
