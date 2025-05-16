@@ -2,11 +2,12 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
+    public int bulletDamage;
     private void OnCollisionEnter(Collision objectWeHit)
     {
         if(objectWeHit.gameObject.CompareTag("Target"))
         {
-            //print($"hit {objectWeHit.gameObject.name} !");
+            print($"hit a target!");
 
             CreateBulletEffect(objectWeHit);
 
@@ -15,9 +16,19 @@ public class Bullet : MonoBehaviour
 
         if (objectWeHit.gameObject.CompareTag("Wall"))
         {
-            //print($"hit a wall !");
+            print($"hit a wall !");
 
             CreateBulletEffect(objectWeHit);
+
+            Destroy(gameObject);
+        }
+
+        if (objectWeHit.gameObject.CompareTag("Zombie"))
+        {
+            print($"hit a zombie !");
+
+            //CreateBulletEffect(objectWeHit);
+            objectWeHit.gameObject.GetComponent<Enemy>().TakenDamage(bulletDamage);
 
             Destroy(gameObject);
         }
