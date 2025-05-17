@@ -5,8 +5,9 @@ public class Enemy : MonoBehaviour
 {
     [SerializeField] private int HP = 100;
     private Animator animator;
-
     private NavMeshAgent navAgent;
+
+    public bool isDead;
     void Start()
     {
         animator = GetComponent<Animator>();
@@ -19,16 +20,15 @@ public class Enemy : MonoBehaviour
 
         if (HP < 1)
         {
-            int randomNumber = Random.Range(0, 2); // 0 или 1
-
+            int randomNumber = Random.Range(0, 2); // 0 or 1
             animator.SetTrigger(randomNumber == 0 ? "DIE1" : "DIE2");
-
-            //animator.SetTrigger("DIE1");
-            //Destroy(gameObject);
+            SoundManager.Instance.ZombieChannel2.PlayOneShot(SoundManager.Instance.zombieDeath);
+            isDead = true;
         }
         else
         {
             animator.SetTrigger("DAMAGE");
+            SoundManager.Instance.ZombieChannel2.PlayOneShot(SoundManager.Instance.zombieHurt);
         }
     }
 

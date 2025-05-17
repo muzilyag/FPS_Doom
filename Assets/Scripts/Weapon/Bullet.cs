@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class Bullet : MonoBehaviour
@@ -23,15 +24,32 @@ public class Bullet : MonoBehaviour
             Destroy(gameObject);
         }
 
-        if (objectWeHit.gameObject.CompareTag("Zombie"))
+        if (objectWeHit.gameObject.CompareTag("Enemy"))
         {
-            print($"hit a zombie !");
+            print($"hit a enemy !");
 
-            //CreateBulletEffect(objectWeHit);
-            objectWeHit.gameObject.GetComponent<Enemy>().TakenDamage(bulletDamage);
+            if(objectWeHit.gameObject.GetComponent<Enemy>().isDead == false)
+            {
+                objectWeHit.gameObject.GetComponent<Enemy>().TakenDamage(bulletDamage);
+            }
+
+            CreateBloodEffect(objectWeHit);
 
             Destroy(gameObject);
         }
+    }
+
+    private void CreateBloodEffect(Collision objectWeHit)
+    {
+        ContactPoint contact = objectWeHit.contacts[0];
+
+        GameObject bloodSpray = Instantiate(
+            GlobalReferences.Instance.bloodSprayEffectPrefab,
+            contact.point,
+            Quaternion.LookRotation(contact.normal)
+            );
+
+        bloodSpray.transform.SetParent(objectWeHit.gameObject.transform);
     }
 
     private void CreateBulletEffect(Collision objectWeHit)

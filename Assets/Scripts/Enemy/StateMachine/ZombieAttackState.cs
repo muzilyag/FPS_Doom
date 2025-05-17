@@ -21,6 +21,13 @@ public class ZombieAttackState : StateMachineBehaviour
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        if (SoundManager.Instance.ZombieChannel.isPlaying == false)
+        {
+            SoundManager.Instance.ZombieChannel.PlayOneShot(SoundManager.Instance.zombieAttack);
+            //SoundManager.Instance.ZombieChannel.PlayDelayed(1f);
+        }
+
+
         LookAtPlayer();
 
         float distanceFromPlayer = Vector3.Distance(player.position, animator.transform.position);
@@ -45,6 +52,6 @@ public class ZombieAttackState : StateMachineBehaviour
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-
+        SoundManager.Instance.ZombieChannel.Stop();
     }
 }

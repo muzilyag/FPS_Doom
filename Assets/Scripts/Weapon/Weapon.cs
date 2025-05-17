@@ -119,7 +119,7 @@ public class Weapon : MonoBehaviour
 
             if (bulletsLeft < 1 && isShooting)
             {
-                SoundManager.Instance.emptyMagazine_m1911.Play();
+                SoundManager.Instance.emptyMagazineM1911.Play();
             }
 
             if (currentShootingMode == ShootingModeEnum.Auto)

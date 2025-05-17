@@ -26,9 +26,15 @@ public class InteractionManager : MonoBehaviour
         //print("!!!");
         if (Physics.Raycast(ray, out hit))
         {
+            if (hoveredWeapon)
+            {
+                hoveredWeapon.GetComponent<Outline>().enabled = false; 
+            }
             GameObject objectHitByRaycast = hit.transform.gameObject;
-           
+
+
             // Weapon outline
+
             if (objectHitByRaycast.GetComponent<Weapon>() && objectHitByRaycast.GetComponent<Weapon>().isActiveWeapon == false)
             {
                 hoveredWeapon = objectHitByRaycast.gameObject.GetComponent<Weapon>();
@@ -36,10 +42,7 @@ public class InteractionManager : MonoBehaviour
 
                 if(Input.GetKeyDown(KeyCode.F))
                 {
-                    WeaponManager.Instance.PickupWeapon(objectHitByRaycast.gameObject);
-                    
-                        hoveredWeapon.GetComponent<Outline>().enabled = false;
-                    
+                    WeaponManager.Instance.PickupWeapon(objectHitByRaycast.gameObject); 
                 }
 
             }
@@ -55,6 +58,12 @@ public class InteractionManager : MonoBehaviour
         //    // Ammo outline
             if (objectHitByRaycast.GetComponent<AmmoBox>())
             {
+
+                if (hoveredAmmoBox)
+                {
+                    hoveredAmmoBox.GetComponent<Outline>().enabled = false;
+                }
+
                 hoveredAmmoBox = objectHitByRaycast.gameObject.GetComponent<AmmoBox>();
                 hoveredAmmoBox.GetComponent<Outline>().enabled = true;
 
