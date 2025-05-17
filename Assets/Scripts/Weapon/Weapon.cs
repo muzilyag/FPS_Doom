@@ -31,9 +31,9 @@ public class Weapon : MonoBehaviour
 
     #region Shotgun
     [Header("Shotgun Settings")]
-    public int pelletsPerShot = 8; // Количество дробин
-    public float shotgunSpreadAngle = 7f; // Угол разброса
-    public bool isShotgun; // Автоматически определяется в Awake()
+    public int pelletsPerShot = 8; // Count drobes
+    public float shotgunSpreadAngle = 7f; // Angle spread
+    public bool isShotgun;
     #endregion
 
     #region Effects
@@ -85,7 +85,6 @@ public class Weapon : MonoBehaviour
         spreadIntensity = hipSpreadIntensity;
         defaultLayer = LayerMask.NameToLayer("Default");
 
-        // Автоматически помечаем как дробовик если выбрана соответствующая модель
         isShotgun = (thisWeaponModel == WeaponModelEnum.Shotgun);
     }
 
@@ -93,25 +92,26 @@ public class Weapon : MonoBehaviour
     {
         if (isActiveWeapon)
         {
-            // Установка слоя для визуализации оружия
             foreach (Transform child in transform.GetComponentsInChildren<Transform>(true))
             {
                 child.gameObject.layer = weaponLayer;
             }
 
-            // Прицеливание
-            if (Input.GetMouseButtonDown(1)) EnterADS();
-            if (Input.GetMouseButtonUp(1)) ExitADS();
+            if (Input.GetMouseButtonDown(1))
+            {
+                EnterADS();
+            }
+            if (Input.GetMouseButtonUp(1)) {
+                ExitADS();
+            }
 
             GetComponent<Outline>().enabled = false;
 
-            // Звук пустого магазина
             if (bulletsLeft < 1 && isShooting)
             {
                 SoundManager.Instance.emptyMagazineM1911.Play();
             }
 
-            // Режимы стрельбы
             if (currentShootingMode == ShootingModeEnum.Auto)
             {
                 isShooting = Input.GetKey(KeyCode.Mouse0);
@@ -121,14 +121,12 @@ public class Weapon : MonoBehaviour
                 isShooting = Input.GetKeyDown(KeyCode.Mouse0);
             }
 
-            // Перезарядка
             if (Input.GetKeyDown(KeyCode.R) && !isReloading && bulletsLeft < magazineSize &&
                 WeaponManager.Instance.CheckAmmoLeftFor(thisWeaponModel) > 0)
             {
                 Reload();
             }
 
-            // Автоперезарядка
             if (readyToShoot && !isShooting && !isReloading && bulletsLeft < 1)
             {
                 //Reload();
@@ -143,7 +141,6 @@ public class Weapon : MonoBehaviour
         }
         else
         {
-            // Сброс слоя когда оружие не активно
             foreach (Transform child in transform.GetComponentsInChildren<Transform>(true))
             {
                 child.gameObject.layer = defaultLayer;
@@ -164,7 +161,6 @@ public class Weapon : MonoBehaviour
 
         if (isShotgun)
         {
-            // Режим дробовика - создаем несколько пуль с разбросом
             for (int i = 0; i < pelletsPerShot; i++)
             {
                 Vector3 direction = CalculateShotgunSpread();
@@ -173,19 +169,16 @@ public class Weapon : MonoBehaviour
         }
         else
         {
-            // Обычный режим - одна пуля
             Vector3 direction = CalculateDirectionAndSpread();
             CreateBullet(direction);
         }
 
-        // Сброс стрельбы
         if (allowReset)
         {
             Invoke("ResetShot", shootingDelay);
             allowReset = false;
         }
 
-        // Очередь в режиме Burst
         if (currentShootingMode == ShootingModeEnum.Burst && burstBulletLeft > 1)
         {
             burstBulletLeft--;
@@ -224,7 +217,6 @@ public class Weapon : MonoBehaviour
         Vector3 targetPoint = ray.GetPoint(100f);
         Vector3 perfectDirection = (targetPoint - bulletSpawn.position).normalized;
 
-        // Более интенсивный разброс для дробовика
         float spreadX = Mathf.Tan(shotgunSpreadAngle * Mathf.Deg2Rad) * UnityEngine.Random.Range(-1f, 1f);
         float spreadY = Mathf.Tan(shotgunSpreadAngle * Mathf.Deg2Rad) * UnityEngine.Random.Range(-1f, 1f);
 
