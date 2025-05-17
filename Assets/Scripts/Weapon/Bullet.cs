@@ -8,7 +8,7 @@ public class Bullet : MonoBehaviour
     {
         if(objectWeHit.gameObject.CompareTag("Target"))
         {
-            print($"hit a target!");
+            //print($"hit a target!");
 
             CreateBulletEffect(objectWeHit);
 
@@ -17,7 +17,7 @@ public class Bullet : MonoBehaviour
 
         if (objectWeHit.gameObject.CompareTag("Wall"))
         {
-            print($"hit a wall !");
+            //print($"hit a wall !");
 
             CreateBulletEffect(objectWeHit);
 

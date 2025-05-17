@@ -5362,6 +5362,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isActiveWeapon: 0
+  weaponDamage: 8
   isShooting: 0
   readyToShoot: 0
   shootingDelay: 0.2
@@ -5369,16 +5370,19 @@ MonoBehaviour:
   burstBulletLeft: 0
   bulletPrefab: {fileID: 1943496465659670588, guid: 2ac473fc6019f43479d0526dfe6b2935, type: 3}
   bulletSpawn: {fileID: 4285293984263787687}
-  bulletVelocity: 30
+  bulletVelocity: 500
   bulletPrefabLifeTime: 3
+  pelletsPerShot: 13
+  shotgunSpreadAngle: 7
+  isShotgun: 1
   muzzleEffect: {fileID: 4430193415773672414}
   reloadTime: 1
   magazineSize: 2
   bulletsLeft: 0
   isReloading: 0
   spreadIntensity: 0
-  hipSpreadIntensity: 0.3
-  adsSpreadIntensity: 0.03
+  hipSpreadIntensity: 0.08
+  adsSpreadIntensity: 0.008
   isADS: 0
   spawnPositionAfterPickup: {x: 0.2, y: 1.4, z: 0}
   spawnRotationAfterPickup: {x: 0, y: 0, z: 0}

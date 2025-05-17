@@ -9,12 +9,14 @@ public class Player : MonoBehaviour
     public int HP = 100;
     public GameObject bloodyScreen;
     public GameObject gameOverUI;
-    public TextMeshProUGUI playerHealthUI;
+    //public TextMeshProUGUI playerHealthUI;
+    public Slider playerHealthBarUI;
 
     public bool isDead;
     private void Start()
     {
-        playerHealthUI.text = $"Health: {HP}";
+        //playerHealthUI.text = $"Health: {HP}";
+        playerHealthBarUI.value = HP;
     }
     public void TakenDamage(int damageAmount)
     {
@@ -29,7 +31,8 @@ public class Player : MonoBehaviour
         {
             print("Player Hit");
             StartCoroutine(BloodyScreenEffect());
-            playerHealthUI.text = $"Health: {HP}";
+            //playerHealthUI.text = $"Health: {HP}";
+            playerHealthBarUI.value = HP;
             SoundManager.Instance.PlayerChannel.PlayOneShot(SoundManager.Instance.playerHurt);
         }
     }
@@ -46,8 +49,8 @@ public class Player : MonoBehaviour
 
         // Dying animation
         GetComponentInChildren<Animator>().enabled = true;
-        playerHealthUI.gameObject.SetActive(false);
-
+        //playerHealthUI.gameObject.SetActive(false);
+        playerHealthBarUI.gameObject.SetActive(false);
         GetComponent<ScreenBlackOut>().StartFade();
         StartCoroutine(ShowGameOverUI());
     }

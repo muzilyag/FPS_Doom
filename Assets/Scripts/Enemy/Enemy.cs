@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -24,12 +25,20 @@ public class Enemy : MonoBehaviour
             animator.SetTrigger(randomNumber == 0 ? "DIE1" : "DIE2");
             SoundManager.Instance.ZombieChannel2.PlayOneShot(SoundManager.Instance.zombieDeath);
             isDead = true;
+            animator.SetBool("isDead", true);
+            StartCoroutine(DestroyEnemy());
         }
         else
         {
             animator.SetTrigger("DAMAGE");
             SoundManager.Instance.ZombieChannel2.PlayOneShot(SoundManager.Instance.zombieHurt);
         }
+    }
+
+    private IEnumerator DestroyEnemy()
+    {
+        yield return new WaitForSeconds(4f);
+        Destroy(gameObject);
     }
 
     private void OnDrawGizmos()
