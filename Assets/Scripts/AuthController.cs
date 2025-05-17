@@ -22,6 +22,7 @@ public class AuthController : MonoBehaviour
         {
             userManager.Register(usernameInputField.text, passwordInputField.text);
             feedbackText.text = "Регистрация успешна!";
+            Login();
         }
         catch (Exception ex)
         {
@@ -37,5 +38,9 @@ public class AuthController : MonoBehaviour
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
+    }
+    public void QuitGame()
+    {
+        Application.Quit();
     }
 }
