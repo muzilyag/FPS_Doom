@@ -4,20 +4,38 @@ public class SoundManager : MonoBehaviour
 {
     public static SoundManager Instance { get; set; }
 
+    [Header("Channels")]
     public AudioSource ShootingChannel;
+    public AudioSource ZombieChannel;
+    public AudioSource ZombieChannel2;
+    public AudioSource PlayerChannel;
 
     [Header("Empty")]
-    public AudioSource emptyMagazine_m1911;
+    public AudioSource emptyMagazineM1911;
 
     [Header("Reload")]
-    public AudioSource reloadSound_m1911;
-    public AudioSource reloadSound_m1a1;
-    public AudioSource reloadSound_shotgun;
+    public AudioSource reloadSoundM1911;
+    public AudioSource reloadSoundM1A1;
+    public AudioSource reloadSoundShotgun;
 
     [Header("Shooting")]
-    public AudioClip shot_m1911;
-    public AudioClip shot_m1a1;
-    public AudioClip shot_shotgun;
+    public AudioClip shotM1911;
+    public AudioClip shotM1A1;
+    public AudioClip shotShotgun;
+
+    [Header("Zombie")]
+    public AudioClip zombieWalking;
+    public AudioClip zombieChase;
+    public AudioClip zombieAttack;
+    public AudioClip zombieHurt;
+    public AudioClip zombieDeath;
+
+    [Header("Player")]
+    public AudioClip playerHurt;
+    public AudioClip playerDie;
+
+    [Header("Music")]
+    public AudioClip gameOverMusic;
 
     private void Awake()
     {
@@ -36,13 +54,13 @@ public class SoundManager : MonoBehaviour
         switch(weapon)
         {
             case Weapon.WeaponModelEnum.M1911:
-                ShootingChannel.PlayOneShot(shot_m1911);
+                ShootingChannel.PlayOneShot(shotM1911);
                 break;
             case Weapon.WeaponModelEnum.M1A1:
-                ShootingChannel.PlayOneShot(shot_m1a1);
+                ShootingChannel.PlayOneShot(shotM1A1);
                 break;
             case Weapon.WeaponModelEnum.Shotgun:
-                ShootingChannel.PlayOneShot(shot_shotgun);
+                ShootingChannel.PlayOneShot(shotShotgun);
                 break;
         }
     }
@@ -52,13 +70,13 @@ public class SoundManager : MonoBehaviour
         switch (weapon)
         {
             case Weapon.WeaponModelEnum.M1911:
-                reloadSound_m1911.Play();
+                reloadSoundM1911.Play();
                 break;
             case Weapon.WeaponModelEnum.M1A1:
-                reloadSound_m1a1.Play();
+                reloadSoundM1A1.Play();
                 break;
             case Weapon.WeaponModelEnum.Shotgun:
-                reloadSound_shotgun.Play();
+                reloadSoundShotgun.Play();
                 break;
         }
     }

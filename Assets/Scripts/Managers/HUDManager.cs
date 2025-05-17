@@ -16,13 +16,6 @@ public class HUDManager : MonoBehaviour
     public Image activeWeaponUI;
     public Image unActiveWeaponUI;
 
-    //[Header("Trowables")]
-    //public Image lethalUI;
-    //public TextMeshProUGUI lethalAmountUI;
-
-    //public Image tacticalUI;
-    //public TextMeshProUGUI tacticalAmountUI;
-
     public Sprite emptySlot;
 
     public GameObject middleDot;
