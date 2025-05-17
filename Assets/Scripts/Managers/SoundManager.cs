@@ -4,9 +4,11 @@ public class SoundManager : MonoBehaviour
 {
     public static SoundManager Instance { get; set; }
 
+    [Header("Channels")]
     public AudioSource ShootingChannel;
     public AudioSource ZombieChannel;
     public AudioSource ZombieChannel2;
+    public AudioSource PlayerChannel;
 
     [Header("Empty")]
     public AudioSource emptyMagazineM1911;
@@ -28,6 +30,12 @@ public class SoundManager : MonoBehaviour
     public AudioClip zombieHurt;
     public AudioClip zombieDeath;
 
+    [Header("Player")]
+    public AudioClip playerHurt;
+    public AudioClip playerDie;
+
+    [Header("Music")]
+    public AudioClip gameOverMusic;
 
     private void Awake()
     {
