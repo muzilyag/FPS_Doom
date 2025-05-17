@@ -4,14 +4,19 @@ public class MouseMovement : MonoBehaviour
 {
     public float mouseSensitivity = 500f;
     private float xRotation = 0f;
-    private float yRotation = 0f;
 
     public float topClamp = -90f;
     public float bottomClamp = 90f;
 
+    [SerializeField] private Transform playerBody;
+    [SerializeField] private Transform playerCamera;
+
     private void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
+
+        if (playerCamera == null)
+            playerCamera = GetComponentInChildren<Camera>().transform;
     }
 
     private void Update()
@@ -21,8 +26,11 @@ public class MouseMovement : MonoBehaviour
 
         xRotation -= mouseY;
         xRotation = Mathf.Clamp(xRotation, topClamp, bottomClamp);
+        playerCamera.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
 
-        yRotation += mouseX;
-        transform.localRotation = Quaternion.Euler(xRotation, yRotation, 0f);
+        if (playerBody != null)
+            playerBody.Rotate(Vector3.up * mouseX);
+        else
+            transform.Rotate(Vector3.up * mouseX);
     }
 }

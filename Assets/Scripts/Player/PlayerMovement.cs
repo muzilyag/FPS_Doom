@@ -1,68 +1,159 @@
-using Unity.Hierarchy;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
     private CharacterController controller;
 
-    public float speed = 12f;
+    [Header("Speed")]
+    public float walkSpeed = 12f;
+    public float sprintSpeed = 18f;
+    public float crouchSpeed = 6f;
+    private float currentSpeed;
+
+    [Header("Jump")]
     public float gravity = -9.81f * 2;
     public float jumpHeight = 3f;
+    private bool isJumping;
 
+    [Header("Crouch")]
+    public float standingHeight = 2f;
+    public float crouchingHeight = 1f;
+    [SerializeField] private float crouchTransitionSpeed = 10f;
+    private float targetHeight;
+    private bool isCrouching;
+
+    [Header("Ground—heck")]
     public Transform groundCheck;
-    public float groundDistance = 0.7f;
+    public float groundCheckDistance = 0.2f;
+    public float groundCheckRadius = 0.4f;
     public LayerMask groundMask;
-
-    //public GameObject body;
+    private bool isGrounded;
+    private RaycastHit groundHit;
 
     private Vector3 velocity;
-
-    private bool isGrounded;
-    private bool isMoving;
-
-    private Vector3 lastPosition = new Vector3(0f, 0f, 0f);
+    private Vector3 lastPosition;
 
     private void Start()
     {
         controller = GetComponent<CharacterController>();
+        standingHeight = controller.height;
+        targetHeight = standingHeight;
+        currentSpeed = walkSpeed;
+        UpdateGroundCheckPosition();
     }
 
     private void Update()
     {
-        isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
-        print(isGrounded);
+        HandleGroundCheck();
+        HandleMovement();
+        HandleJump();
+        HandleCrouch();
+        ApplyGravity();
+    }
+
+    private void HandleGroundCheck()
+    {
+        bool wasGrounded = isGrounded;
+
+        isGrounded = Physics.SphereCast(
+            groundCheck.position,
+            groundCheckRadius,
+            Vector3.down,
+            out groundHit,
+            groundCheckDistance,
+            groundMask);
+
+        if (!isGrounded)
+        {
+            isGrounded = controller.isGrounded;
+        }
+
+        if (isGrounded && !wasGrounded)
+        {
+            isJumping = false;
+        }
+
+        Debug.DrawRay(groundCheck.position,
+                     Vector3.down * (groundCheckDistance + groundCheckRadius),
+                     isGrounded ? Color.green : Color.red);
+
         if (isGrounded && velocity.y < 0)
         {
             velocity.y = -2f;
         }
+    }
 
+    private void UpdateGroundCheckPosition()
+    {
+        if (groundCheck != null)
+        {
+            groundCheck.position = transform.position + Vector3.down * (controller.height / 2 - 0.1f);
+        }
+    }
+
+    private void HandleMovement()
+    {
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
 
         Vector3 move = transform.right * x + transform.forward * z;
+        float targetSpeed = isCrouching ? crouchSpeed :
+                          Input.GetKey(KeyCode.LeftShift) ? sprintSpeed : walkSpeed;
+        currentSpeed = Mathf.Lerp(currentSpeed, targetSpeed, Time.deltaTime * 10f);
 
-        controller.Move(move * speed * Time.deltaTime);
+        controller.Move(move * currentSpeed * Time.deltaTime);
+    }
 
-        if(Input.GetButtonDown("Jump") && isGrounded)
+    private void HandleJump()
+    {
+        if (Input.GetButtonDown("Jump") && isGrounded && !isCrouching && !isJumping)
         {
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+            isJumping = true;
+        }
+    }
+
+    private void HandleCrouch()
+    {
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            if (isCrouching)
+            {
+                if (!Physics.Raycast(transform.position, Vector3.up, standingHeight - crouchingHeight + 0.1f))
+                {
+                    isCrouching = false;
+                    targetHeight = standingHeight;
+                }
+            }
+            else
+            {
+                isCrouching = true;
+                targetHeight = crouchingHeight;
+            }
         }
 
-        velocity.y += gravity * Time.deltaTime;
+        if (Mathf.Abs(controller.height - targetHeight) > 0.01f)
+        {
+            controller.height = Mathf.Lerp(controller.height, targetHeight, Time.deltaTime * crouchTransitionSpeed);
+            UpdateGroundCheckPosition();
+        }
+    }
 
+    private void ApplyGravity()
+    {
+        if (!isGrounded)
+        {
+            velocity.y += gravity * Time.deltaTime;
+        }
         controller.Move(velocity * Time.deltaTime);
+    }
 
-        if(lastPosition != gameObject.transform.position && isGrounded)
+    private void OnDrawGizmosSelected()
+    {
+        if (groundCheck != null)
         {
-            isMoving = true;
+            Gizmos.color = isGrounded ? Color.green : Color.red;
+            Gizmos.DrawWireSphere(groundCheck.position + Vector3.down * groundCheckDistance, groundCheckRadius);
         }
-        else
-        {
-            isMoving= false;
-        }
-
-        lastPosition = gameObject.transform.position;
-
-
     }
 }

@@ -104,7 +104,7 @@ public class ZombieSpawnController : MonoBehaviour
         inCooldown = false;
 
         waveOverUI.gameObject.SetActive(false);
-        currentZombiePerWave *= 2;
+        currentZombiePerWave += 5;
         StartNextWave();
     }
 }

@@ -23,7 +23,6 @@ public class InteractionManager : MonoBehaviour
     {
         Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
         RaycastHit hit;
-        //print("!!!");
         if (Physics.Raycast(ray, out hit))
         {
             if (hoveredWeapon)
@@ -34,7 +33,6 @@ public class InteractionManager : MonoBehaviour
 
 
             // Weapon outline
-
             if (objectHitByRaycast.GetComponent<Weapon>() && objectHitByRaycast.GetComponent<Weapon>().isActiveWeapon == false)
             {
                 hoveredWeapon = objectHitByRaycast.gameObject.GetComponent<Weapon>();
@@ -50,12 +48,11 @@ public class InteractionManager : MonoBehaviour
             {
                 if (hoveredWeapon)
                 {
-                    //print($"{objectHitByRaycast.name} is disable");
                     hoveredWeapon.GetComponent<Outline>().enabled = false;
                 }
             }
             
-        //    // Ammo outline
+            // Ammo outline
             if (objectHitByRaycast.GetComponent<AmmoBox>())
             {
 
@@ -71,10 +68,6 @@ public class InteractionManager : MonoBehaviour
                 {
                     WeaponManager.Instance.PickupAmmo(hoveredAmmoBox);
                     Destroy(objectHitByRaycast.gameObject);
-                    //if (objectHitByRaycast.GetComponent<AmmoBox>())
-                    //{
-                    //    hoveredAmmoBox.GetComponent<Outline>().enabled = false;
-                    //}
                 }
                 
 
@@ -83,7 +76,6 @@ public class InteractionManager : MonoBehaviour
             {
                 if (hoveredAmmoBox)
                 {
-                    //print($"{objectHitByRaycast.name} is disable");
                     hoveredAmmoBox.GetComponent<Outline>().enabled = false;
                 }
             }
