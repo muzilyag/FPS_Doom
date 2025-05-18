@@ -1,6 +1,0 @@
-C:\Users\Михаил\source\repos\Auth\AuthController\bin\Debug\AuthController.dll
-C:\Users\Михаил\source\repos\Auth\AuthController\bin\Debug\AuthController.pdb
-C:\Users\Михаил\source\repos\Auth\AuthController\obj\Debug\AuthSystem.csproj.AssemblyReference.cache
-C:\Users\Михаил\source\repos\Auth\AuthController\obj\Debug\AuthSystem.csproj.CoreCompileInputs.cache
-C:\Users\Михаил\source\repos\Auth\AuthController\obj\Debug\AuthController.dll
-C:\Users\Михаил\source\repos\Auth\AuthController\obj\Debug\AuthController.pdb
