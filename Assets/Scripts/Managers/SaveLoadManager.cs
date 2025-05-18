@@ -1,36 +1,55 @@
+using System.IO;
 using UnityEngine;
-using UnityEngine.Rendering;
+using System.Collections.Generic;
 
-public class SaveLoadManager : MonoBehaviour
+[System.Serializable]
+public class PlayerData
 {
-    public static SaveLoadManager Instance { get; set; }
+    public string accountId;
+    public int maxWavesSurvived;
+    public int zombieKilled;
+    public float maxLiveTime;
+    // Another data
+}
 
-    private string highScoreKey = "BestWaveSavedValue";
-    private void Awake()
+[System.Serializable]
+public class AllPlayersData
+{
+    public List<PlayerData> players = new List<PlayerData>();
+}
+public static class SaveLoadManager
+{
+    private static string FilePath => Path.Combine(Application.persistentDataPath, "users.json");
+    private static AllPlayersData _allData;
+    public static string CurretnUser;
+    static SaveLoadManager()
     {
-        if(Instance != null && Instance != this)
+        if (File.Exists(FilePath))
         {
-            Destroy(gameObject);
+            string json = File.ReadAllText(FilePath);
+            _allData = JsonUtility.FromJson<AllPlayersData>(json);
         }
         else
         {
-            Instance = this;
+            _allData = new AllPlayersData();
         }
-
-        DontDestroyOnLoad(this);
     }
 
-    public void SaveHighScore(int score)
+    public static PlayerData GetPlayerData(string accountId)
     {
-        PlayerPrefs.SetInt(highScoreKey, score);
-    }
-
-    public int LoadHighScore()
-    {
-        if(PlayerPrefs.HasKey(highScoreKey))
+        var player = _allData.players.Find(p => p.accountId == accountId);
+        if (player == null)
         {
-            return PlayerPrefs.GetInt(highScoreKey);
+            player = new PlayerData { accountId = accountId };
+            _allData.players.Add(player);
+            SaveAllData();
         }
-        return 0;
+        return player;
+    }
+
+    public static void SaveAllData()
+    {
+        string json = JsonUtility.ToJson(_allData, true);
+        File.WriteAllText(FilePath, json);
     }
 }

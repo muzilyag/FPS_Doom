@@ -25,6 +25,7 @@ public class Enemy : MonoBehaviour
             animator.SetTrigger(randomNumber == 0 ? "DIE1" : "DIE2");
             SoundManager.Instance.ZombieChannel2.PlayOneShot(SoundManager.Instance.zombieDeath);
             isDead = true;
+            GlobalReferences.Instance.killedZombie++;
             animator.SetBool("isDead", true);
             StartCoroutine(DestroyEnemy());
         }

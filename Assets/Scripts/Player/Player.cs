@@ -12,12 +12,15 @@ public class Player : MonoBehaviour
     public GameObject gameOverUI;
     //public TextMeshProUGUI playerHealthUI;
     public Slider playerHealthBarUI;
+    private PlayerData playerData;
 
     public bool isDead;
     private void Start()
     {
         //playerHealthUI.text = $"Health: {HP}";
         playerHealthBarUI.value = HP;
+        playerData = SaveLoadManager.GetPlayerData(SaveLoadManager.CurretnUser);
+        GlobalReferences.Instance.killedZombie = playerData.zombieKilled;
     }
     public void TakenDamage(int damageAmount)
     {
@@ -61,11 +64,13 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(1f);
         gameOverUI.gameObject.SetActive(true);
         int waveSurvived = GlobalReferences.Instance.waveNumber;
-        if(waveSurvived - 1 > SaveLoadManager.Instance.LoadHighScore())
+        if(waveSurvived - 1 > playerData.maxWavesSurvived)
         {
-            SaveLoadManager.Instance.SaveHighScore(waveSurvived);
+            playerData.maxWavesSurvived = waveSurvived;
         }
+        playerData.zombieKilled = GlobalReferences.Instance.killedZombie;
 
+        SaveLoadManager.SaveAllData();
         StartCoroutine(ReturnToMainMenu());
     }
 

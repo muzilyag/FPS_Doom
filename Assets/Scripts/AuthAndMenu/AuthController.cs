@@ -10,6 +10,7 @@ public class AuthController : MonoBehaviour
     public Text feedbackText;
 
     private UserManager userManager;
+    
 
     private void Start()
     {
@@ -50,6 +51,7 @@ public class AuthController : MonoBehaviour
         if (errorMessage == null)
         {
             feedbackText.text = "";
+            SaveLoadManager.CurretnUser = usernameInputField.text;
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
         else
