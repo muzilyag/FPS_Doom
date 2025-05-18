@@ -1,3 +1,4 @@
+using ReportGenerator;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
