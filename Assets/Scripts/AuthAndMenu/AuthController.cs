@@ -20,7 +20,17 @@ public class AuthController : MonoBehaviour
     {
         try
         {
-            userManager.Register(usernameInputField.text, passwordInputField.text);
+            // Проверка пустых полей
+            string username = usernameInputField.text;
+            string password = passwordInputField.text;
+
+            if (string.IsNullOrWhiteSpace(username))
+                throw new Exception("Поле логин не может быть пустым!");
+
+            if (string.IsNullOrWhiteSpace(password))
+                throw new Exception("Поле пароль не может быть пустым!");
+
+            userManager.Register(username, password);
             feedbackText.text = "Регистрация успешна!";
             Login();
         }
