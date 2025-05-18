@@ -52,6 +52,8 @@ public class AuthController : MonoBehaviour
         {
             feedbackText.text = "";
             SaveLoadManager.CurretnUser = usernameInputField.text;
+            PlayerPrefs.SetString("CurrentAccountId", usernameInputField.text);
+            PlayerPrefs.Save();
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
         else
