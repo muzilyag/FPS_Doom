@@ -6,10 +6,14 @@ using System.Collections.Generic;
 public class PlayerData
 {
     public string accountId;
+    // Maximum stats
     public int maxWavesSurvived;
     public int zombieKilled;
     public float maxLiveTime;
-    // Another data
+    // Current data
+    //public int currentWave;
+    //public Vector3 currentPosition;
+    //public int currentHP;
 }
 
 [System.Serializable]
@@ -21,7 +25,7 @@ public static class SaveLoadManager
 {
     private static string FilePath => Path.Combine(Application.persistentDataPath, "users.json");
     private static AllPlayersData _allData;
-    public static string CurretnUser;
+    public static string CurrentUser;
     static SaveLoadManager()
     {
         if (File.Exists(FilePath))

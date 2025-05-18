@@ -6,7 +6,7 @@ public class MainMenuManager : MonoBehaviour
 {
     public TMP_Text highScoreUI;
     public TMP_Text zombieKilledUI;
-    //public TMP_Text maxTimeAliveUI;
+    public TMP_Text maxTimeAliveUI;
 
     private string nextScene = "SampleScene";
 
@@ -15,13 +15,16 @@ public class MainMenuManager : MonoBehaviour
     private void Start()
     {
         mainChannel.PlayOneShot(bgMusic);
-        PlayerData playerData = SaveLoadManager.GetPlayerData(SaveLoadManager.CurretnUser);
-        int highScore = playerData.maxWavesSurvived;
-        highScoreUI.text = $"Самая длинная серия: {highScore} волн";
-        int zombieKilled = playerData.zombieKilled;
-        zombieKilledUI.text = $"Зомби убито: {zombieKilled}";
-        //float maxTimeAlive = playerData.maxLiveTime;
-        //maxTimeAliveUI.text = $"Рекорд времени: {maxTimeAlive.ToString("F0")}";
+        PlayerData playerData = SaveLoadManager.GetPlayerData(SaveLoadManager.CurrentUser);
+        highScoreUI.text = $"Самая длинная серия: {playerData.maxWavesSurvived} волн";
+        zombieKilledUI.text = $"Зомби убито: {playerData.zombieKilled}";
+        maxTimeAliveUI.text = $"Рекорд времени: {FormatTime(playerData.maxLiveTime)}";
+    }
+    private string FormatTime(float timeInSeconds)
+    {
+        int minutes = Mathf.FloorToInt(timeInSeconds / 60f);
+        int seconds = Mathf.FloorToInt(timeInSeconds % 60f);
+        return $"{minutes:00}:{seconds:00}";
     }
     public void LoadNextScene()
     {

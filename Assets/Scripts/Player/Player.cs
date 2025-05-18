@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using TMPro;
+using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -13,15 +14,27 @@ public class Player : MonoBehaviour
     //public TextMeshProUGUI playerHealthUI;
     public Slider playerHealthBarUI;
     private PlayerData playerData;
-
+    private float timeAlive = 0;
     public bool isDead;
+    private bool isCountingTime = true;
     private void Start()
     {
         //playerHealthUI.text = $"Health: {HP}";
         playerHealthBarUI.value = HP;
-        playerData = SaveLoadManager.GetPlayerData(SaveLoadManager.CurretnUser);
-        GlobalReferences.Instance.killedZombie = playerData.zombieKilled;
+        playerData = SaveLoadManager.GetPlayerData(SaveLoadManager.CurrentUser);
+        GlobalReferences.Instance.playerData = playerData;
+        StartCoroutine(TimeCounter());
     }
+
+    private IEnumerator TimeCounter()
+    {
+        while (isCountingTime)
+        {
+            timeAlive += Time.deltaTime;
+            yield return null;
+        }
+    }
+
     public void TakenDamage(int damageAmount)
     {
         HP -= damageAmount;
@@ -44,6 +57,12 @@ public class Player : MonoBehaviour
     private void PlayerDead()
     {
         isDead = true;
+        isCountingTime = false;
+        foreach (Weapon weapon in GetComponentsInChildren<Weapon>(true))
+        {
+            weapon.enabled = false; 
+        }
+
         SoundManager.Instance.PlayerChannel.PlayOneShot(SoundManager.Instance.playerDie);
         SoundManager.Instance.PlayerChannel.clip = SoundManager.Instance.gameOverMusic;
         SoundManager.Instance.PlayerChannel.PlayDelayed(0.5f);
@@ -68,7 +87,8 @@ public class Player : MonoBehaviour
         {
             playerData.maxWavesSurvived = waveSurvived;
         }
-        playerData.zombieKilled = GlobalReferences.Instance.killedZombie;
+        playerData.zombieKilled = GlobalReferences.Instance.playerData.zombieKilled;
+        playerData.maxLiveTime = timeAlive;
 
         SaveLoadManager.SaveAllData();
         StartCoroutine(ReturnToMainMenu());
@@ -76,9 +96,10 @@ public class Player : MonoBehaviour
 
     private IEnumerator ReturnToMainMenu()
     {
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(4f);
         Cursor.lockState = CursorLockMode.None;
         SceneManager.LoadScene("MainMenuScene");
+
     }
 
     private IEnumerator BloodyScreenEffect()

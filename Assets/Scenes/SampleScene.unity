@@ -1064,7 +1064,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Wave is Over. \nPrepare for Next Wave!"
+  m_text: "\u0412\u043E\u043B\u043D\u0430 \u043F\u0435\u0440\u0435\u0436\u0438\u0442\u0430.\n\u0421\u043B\u0435\u0434\u0443\u044E\u0449\u0430\u044F
+    \u0432\u043E\u043B\u043D\u0430 \u0447\u0435\u0440\u0435\u0437"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -5838,8 +5839,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u0421\u043E\u0445\u0440\u0430\u043D\u0438\u0442\u044C \u0438 \u0432\u044B\u0439\u0442\u0438
-    \u0432 \u043C\u0435\u043D\u044E"
+  m_Text: "\u0412\u044B\u0439\u0442\u0438 \u0432 \u043C\u0435\u043D\u044E"
 --- !u!222 &1609604281
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -7313,6 +7313,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletImpactEffectPrefab: {fileID: 7406956957252995714, guid: 3335b5dfb7d0de24cbb258b4de4c4344, type: 3}
   bloodSprayEffectPrefab: {fileID: 5012660358107359443, guid: b596cf009b6a6d4438bb9173411d2cc2, type: 3}
+  playerData:
+    accountId: 
+    maxWavesSurvived: 0
+    zombieKilled: 0
+    maxLiveTime: 0
+  waveNumber: 0
 --- !u!4 &2114398304
 Transform:
   m_ObjectHideFlags: 0

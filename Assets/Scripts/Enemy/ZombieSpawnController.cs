@@ -38,10 +38,10 @@ public class ZombieSpawnController : MonoBehaviour
     {
         currentZombiesAlive.Clear();
         currentWave++;
-
+        
         GlobalReferences.Instance.waveNumber = currentWave;
-
-        currentWaveUI.text = $"Wave {currentWave}";
+        //GlobalReferences.Instance.playerData.currentPosition = 
+        currentWaveUI.text = $"Волна {currentWave}";
         StartCoroutine(SpawnWave());
     }
 

@@ -51,7 +51,7 @@ public class AuthController : MonoBehaviour
         if (errorMessage == null)
         {
             feedbackText.text = "";
-            SaveLoadManager.CurretnUser = usernameInputField.text;
+            SaveLoadManager.CurrentUser = usernameInputField.text;
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
         else

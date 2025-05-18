@@ -8,8 +8,9 @@ public class GlobalReferences : MonoBehaviour
 
     public GameObject bloodSprayEffectPrefab;
 
+    public PlayerData playerData;
     public int waveNumber;
-    public int killedZombie;
+    //public int killedZombie;
     private void Awake()
     {
         if(Instance != null && Instance != this)
