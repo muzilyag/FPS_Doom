@@ -32,11 +32,19 @@ public class AuthController : MonoBehaviour
 
     public void Login()
     {
-        bool success = userManager.Login(usernameInputField.text, passwordInputField.text);
-        feedbackText.text = success ? "" : "Ошибка авторизации.";
-        if (success)
+        string errorMessage = userManager.Login(
+            usernameInputField.text,
+            passwordInputField.text
+        );
+
+        if (errorMessage == null)
         {
+            feedbackText.text = "";
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        }
+        else
+        {
+            feedbackText.text = errorMessage;
         }
     }
     public void QuitGame()
