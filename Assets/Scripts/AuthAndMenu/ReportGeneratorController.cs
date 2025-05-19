@@ -13,7 +13,6 @@ public class ReportGeneratorController : MonoBehaviour
 
         // Путь для сохранения отчета
         string outputPath = Path.Combine(Directory.GetCurrentDirectory(), "report.pdf");
-
         string currentAccountId = PlayerPrefs.GetString("CurrentAccountId");
 
         try
