@@ -31,7 +31,7 @@ public class Weapon : MonoBehaviour
 
     #region Shotgun
     [Header("Shotgun Settings")]
-    public int pelletsPerShot = 8; // Count drobes
+    public int pelletsPerShot = 8; // Count pellets
     public float shotgunSpreadAngle = 7f; // Angle spread
     public bool isShotgun;
     #endregion
@@ -125,6 +125,7 @@ public class Weapon : MonoBehaviour
                 WeaponManager.Instance.CheckAmmoLeftFor(thisWeaponModel) > 0)
             {
                 Reload();
+                animator.SetBool("isReloading", false);
             }
 
             if (readyToShoot && !isShooting && !isReloading && bulletsLeft < 1)
@@ -245,6 +246,7 @@ public class Weapon : MonoBehaviour
     private void Reload()
     {
         isReloading = true;
+        animator.SetBool("isReloading", true);
         animator.SetTrigger(thisWeaponModel == WeaponModelEnum.Shotgun && isADS ? "RELOAD_ADS" : "RELOAD");
         SoundManager.Instance.PlayReloadSound(thisWeaponModel);
         Invoke("ReloadCompleted", reloadTime);

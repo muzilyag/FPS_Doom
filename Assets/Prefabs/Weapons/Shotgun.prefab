@@ -5370,7 +5370,7 @@ MonoBehaviour:
   burstBulletLeft: 0
   bulletPrefab: {fileID: 1943496465659670588, guid: 2ac473fc6019f43479d0526dfe6b2935, type: 3}
   bulletSpawn: {fileID: 4285293984263787687}
-  bulletVelocity: 500
+  bulletVelocity: 50
   bulletPrefabLifeTime: 3
   pelletsPerShot: 13
   shotgunSpreadAngle: 7

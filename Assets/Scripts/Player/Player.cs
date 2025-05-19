@@ -8,15 +8,17 @@ using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
-    public int HP = 100;
-    public GameObject bloodyScreen;
-    public GameObject gameOverUI;
-    //public TextMeshProUGUI playerHealthUI;
-    public Slider playerHealthBarUI;
     private PlayerData playerData;
     private float timeAlive = 0;
-    public bool isDead;
     private bool isCountingTime = true;
+
+    public int HP = 100;
+    public int Stamina = 100;
+    public GameObject bloodyScreen;
+    public GameObject gameOverUI;
+    public Slider playerHealthBarUI;
+    public Slider playerStaminaUI;
+    public bool isDead;
     private void Start()
     {
         //playerHealthUI.text = $"Health: {HP}";
